@@ -1,29 +1,33 @@
 <?php
-//incluye la clase Libro y CrudLibro
-require_once('crud_libro.php');
-require_once('libro.php');
+// Incluye la clase Libro y CrudLibro usando rutas absolutas
+require_once __DIR__ . '/../modelo/crud_libro.php';
+require_once __DIR__ . '/../modelo/libro.php';
 
-$crud= new CrudLibro();
-$libro= new Libro();
+$crud  = new CrudLibro();
+$libro = new Libro();
 
-// si el elemento insertar no viene nulo llama al crud e inserta un libro
+// Si el elemento insertar no viene nulo, inserta un libro
 if (isset($_POST['insertar'])) {
     $libro->setNombre($_POST['nombre']);
-    //llama a la función insertar definida en el crud
     $crud->insertar($libro);
-    header('Location: index.php');
-// si el elemento de la vista con nombre actualizar no viene nulo, llama al crud y actualiza el libro
-}elseif(isset($_POST['actualizar'])){
+    header('Location: ../Vista/index.php');
+
+// Si el elemento actualizar no viene nulo, actualiza el libro
+} elseif (isset($_POST['actualizar'])) {
     $libro->setId($_POST['id']);
     $libro->setNombre($_POST['nombre']);
     $crud->actualizar($libro);
-    header('Location: index.php');
-// si la variable accion enviada por GET es == 'e' llama al crud y elimina un libro
-}elseif ($_GET['accion']=='e') {
-    $crud->eliminar($_GET['id']);
-    header('Location: index.php');
-// si la variable accion enviada por GET es == 'a', envía a la página actualizar.php
-}elseif($_GET['accion']=='a'){
-    header('Location: actualizar.php');
+    header('Location: ../Vista/index.php');
+
+// Si la variable accion enviada por GET es 'e', elimina el libro
+} elseif (isset($_GET['accion']) && $_GET['accion'] === 'e') {
+    $crud->eliminar((int) $_GET['id']);
+    header('Location: ../Vista/index.php');
+
+// Si la variable accion enviada por GET es 'a', va a la página actualizar
+} elseif (isset($_GET['accion']) && $_GET['accion'] === 'a') {
+    header('Location: ../Vista/actualizar.php?id=' . (int) $_GET['id']);
 }
+
+exit();
 ?>

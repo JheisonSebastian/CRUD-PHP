@@ -1,0 +1,8 @@
+# ── Git ──────────────────────────────────────────
+.git/
+
+# ── Variables de entorno (credenciales locales) ──
+.env
+
+# ── Logs y caché ─────────────────────────────────
+*.log
